@@ -1,0 +1,17 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{natbib}
+
+\title{\texttt{bibchen} - Making Smaller Bibliographies}
+\author{Richard Teague}
+
+\begin{document}
+
+\maketitle{}
+
+Are you writing a propsal with citations and you need a smaller reference section? Tired of having to mess around with writing out each reference by hand to make it small enough to fit? \texttt{bibchen} is here to help!
+
+If we have some rather long text citing \cite{Teague_ea_2018}, \cite{Teague_ea_2017}, \cite{Teague_ea_2016} and \citet{Teague_ea_2015} then we're good to go.
+
+\bibliographystyle{aasjournal}
+\bibliography{bibliography}{}
+\end{document}
