@@ -4,19 +4,27 @@ Writing a proposal and need to shrink your bibliography? `bibchen` is here to he
 
 ## Useage
 
+First, clone the respository somewhere and `cd` into the directory. Then if you're using a `.bashrc` file run this in the therminal.
 
-
-```bash
-python bibchen path/to/file.tex
+```
+echo alias bibchen="'python $PWD/bibchen.py'" >> ~/.bashrc 
 ```
 
-This will convert something like this:
+This will allow you to run the script anywhere through:
+
+```bash
+bibchen path/to/file.tex
+```
+
+## Example
+
+A typical bibliography using the `natbib` approach gives something like this:
 
 ---
 ![alt-text](https://github.com/richteague/bibchen/blob/master/test/before.png "Standard bibliography.")
 ---
 
-To this!
+`bibchen` will replace the reference section with something much more compact, like this:
 
 ---
 ![alt-text](https://github.com/richteague/bibchen/blob/master/test/after.png "Shrunken bibliography.")
