@@ -27,6 +27,7 @@ if __name__ == '__main__':
         path = sys.argv[1]
         file = path.split('/')[-1]
         path = path.replace(file, '')
+        print path, file
         os.chdir('%s' % path)
     except IndexError:
         path = cdir
@@ -78,8 +79,8 @@ if __name__ == '__main__':
         bib_items[b] = bib_items[b].replace(r'\end{thebibliography}', '')
 
     # Write the new reference section.
-    ref = r'\vspace{0.2cm}\textbf{References:} '
-    for bib_item in bib_items:
+    ref = r'\vspace{0.2cm}\noindent\textbf{References:} '
+    for b, bib_item in enumerate(bib_items):
 
         # Format is \bibitem[{Surname} A. B. {Surname} A. B. ...]{citekey}.
         citation, citekey = bib_item.split(']')
@@ -93,7 +94,9 @@ if __name__ == '__main__':
             if char.isdigit():
                 break
         full_ref = citation.split('(')[0] + ' ' + full_ref[c:]
-        ref += r' $\cdot$ ' + full_ref
+        if b > 0:
+            ref += r' $\cdot$ '
+        ref += full_ref
 
     # Replace the reference section.
     ref = ref.replace('\n', '')
