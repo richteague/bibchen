@@ -17,7 +17,11 @@ This will allow you to run the script anywhere through:
 $ bibchen path/to/file.tex
 ```
 
-which will use `PDFLaTeX` and `bibtex` to generate the final PDF without altering your manuscript file.
+which will use `PDFLaTeX` and `bibtex` to generate the final PDF without altering your manuscript file. There are multiple format options which you can use, a list of which can be found through the `-h` argument,
+
+```bash
+$ bibchen -h
+```
 
 ## Example
 
@@ -33,4 +37,3 @@ A typical bibliography using the `natbib` approach gives something like this:
 
 1) Check Python3 compatibility.
 2) Check for different bibliography styles.
-3) Allow for user-specified fontsize, titles and reference breaks
