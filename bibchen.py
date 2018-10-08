@@ -1,19 +1,17 @@
 """
-Make a small bibliography for proposals. By default we'll have only one author
-per reference and split them all by a dot.
+Make a smaller bibliography for all those proposals. To run simply use:
 
-Will want to:
+> python bibchen.py path/to/file.tex
 
-a) check if there's already a *.bbl file, if not, make one.
+Making sure that the bibfile is in there too. This should generate the PDF with
+PDFLaTeX after running bibtex to get the citations correct, but then replacing
+the old bibliography with a shorter version.
 
-    bibtex main
+TODO:
 
-b) parse all the citation keys we'd need and the authors.
-c) replace the bibliography command with the hidden one.
-
-    Replace: \bibliography{bib}
-    With: \newsavebox\mytempbib
-          \savebox\mytempbib{\parbox{\textwidth}{\bibliography{bib}}}
+1) Check this works for other common bibstyles.
+2) Allow for changing number of authors in the references.
+3) Allow for changes to a) fontsize, b) separating symbol.
 
 """
 
