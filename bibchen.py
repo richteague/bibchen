@@ -16,31 +16,58 @@ TODO:
 """
 
 import os
-import sys
+import argparse
 import subprocess
+
+# Define the acceptable fontsizes. TODO: Accept a number too?
+fontsizes = ['Huge', 'huge', 'LARGE', 'Large', 'large', 'normalsize',
+             'small', 'footnotesize', 'scriptsize', 'tiny']
 
 if __name__ == '__main__':
 
-    # Read in the files.
-    cdir = os.getcwd()
+    # Parse the arguments.
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path',
+                        help='path to .tex file')
+    parser.add_argument('-fontsize', default='normalsize',
+                        help='Font size for the bibliography. Default is ' +
+                             '"normalsize".')
+    parser.add_argument('-latex', default='pdflatex',
+                        help='LaTeX engine used to generate PDF. Default is' +
+                             ' "pdflatex".')
+    parser.add_argument('-title', default='References:',
+                        help='Heading name used for the bibliography. Use' +
+                             ' underscores in place of spaces. Default is ' +
+                             '"References:".')
+    parser.add_argument('-symbol', default='cdot',
+                        help='Symbol used to break references. Default is ' +
+                             '"cdot".')
+    parser.add_argument('--noclean', action='store_true',
+                        help='Do not clean up intermediate files.')
+    args = parser.parse_args()
 
-    try:
-        path = sys.argv[1]
-        if '/' not in path:
-            file = path
-            path = './'
-        else:
-            file = path.split('/')[-1]
-            path = path.replace(file, '')
-    except IndexError:
-        file = [fn for fn in os.listdir('./') if fn.endswith('.tex')][0]
+    # Get the directory and filename.
+    if '/' not in args.path:
+        file = args.path
         path = './'
-
+    else:
+        file = args.path.split('/')[-1]
+        path = args.path.replace(file, '')
     if file.endswith('.tex'):
         file = file[:-4]
     os.chdir('%s' % path)
 
-    # Keep track of which files are originally there.
+    # Check the fontsize.
+    fontsize = args.fontsize
+    if fontsize not in fontsizes:
+        raise ValueError("Unknown fontsize.")
+
+    # Check the symbol for reference breaks.
+    symbol = args.symbol.replace(r'\\', '')
+    symbol = r' $\%s$ ' % symbol
+
+    # Keep track of which files are in the CWD.
+    cdir = os.getcwd()
     files = [fn for fn in os.listdir('./')]
 
     # Copy the original tex file to save.
@@ -51,7 +78,7 @@ if __name__ == '__main__':
     # Check if there's a .bbl file. If not, make one.
     if not os.path.isfile('%s.bbl' % file):
         with open('temp.sh', 'a') as f:
-            f.write('pdflatex %s\n' % file)
+            f.write('%s %s\n' % (args.latex, file))
             f.write('bibtex %s\n' % file)
 
     # Create appropriate files.
@@ -82,7 +109,10 @@ if __name__ == '__main__':
         bib_items[b] = bib_items[b].replace(r'\end{thebibliography}', '')
 
     # Write the new reference section.
-    ref = r'\vspace{0.2cm}\noindent\textbf{References:} '
+    ref = r'\begingroup' + '\n'
+    ref += r'\%s' % fontsize + '\n'
+    ref += r'\vspace{0.2cm}' + '\n'
+    ref += r'\noindent\textbf{%s} ' % args.title.replace('_', ' ')
     for b, bib_item in enumerate(bib_items):
 
         # Format is \bibitem[{Surname} A. B. {Surname} A. B. ...]{citekey}.
@@ -98,14 +128,12 @@ if __name__ == '__main__':
                 break
         full_ref = citation.split('(')[0] + ' ' + full_ref[c:]
         if b > 0:
-            ref += r' $\cdot$ '
-        ref += full_ref
+            ref += symbol
+        ref += full_ref.replace('\n', '')
+    ref += r'\endgroup'
 
-    # Replace the reference section.
-    ref = ref.replace('\n', '')
+    # Replace the reference section and rewrite the file.
     tex.insert(l+1, ref)
-
-    # Rewrite the tex file.
     with open('%s.tex' % file, 'w') as f:
         for line in tex:
             f.write(line)
@@ -113,20 +141,21 @@ if __name__ == '__main__':
     # Compile the new PDF.
     with open('temp.sh', 'w') as f:
         f.write('#!/bin/bash\n')
-        f.write('pdflatex %s.tex\n' % file)
+        f.write('%s %s\n' % (args.latex, file))
         f.write('bibtex %s\n' % file)
-        f.write('pdflatex %s.tex\n' % file)
-        f.write('pdflatex %s.tex\n' % file)
+        f.write('%s %s\n' % (args.latex, file))
+        f.write('%s %s\n' % (args.latex, file))
         f.write('mv %s_temp.tex %s.tex\n' % (file, file))
     os.chmod('./temp.sh', 0o755)
     subprocess.call('./temp.sh')
     os.system('rm temp.sh')
 
     # Clean up the intermediate files.
-    files += ['%s.pdf' % file]
-    for fn in os.listdir('./'):
-        if fn not in files:
-            os.system('rm %s' % fn)
+    if not args.noclean:
+        files += ['%s.pdf' % file]
+        for fn in os.listdir('./'):
+            if fn not in files:
+                os.system('rm %s' % fn)
 
     # Change back to original directory.
     os.chdir('%s' % cdir)
