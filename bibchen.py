@@ -1,17 +1,7 @@
 """
 Make a smaller bibliography for all those proposals. To run simply use:
 
-> python bibchen.py path/to/file.tex
-
-Making sure that the bibfile is in there too. This should generate the PDF with
-PDFLaTeX after running bibtex to get the citations correct, but then replacing
-the old bibliography with a shorter version.
-
-TODO:
-
-1) Check this works for other common bibstyles.
-2) Allow for changing number of authors in the references.
-3) Allow for changes to a) fontsize, b) separating symbol.
+> bibchen path/to/file.tex
 
 """
 
@@ -44,7 +34,16 @@ if __name__ == '__main__':
                              '"cdot".')
     parser.add_argument('--noclean', action='store_true',
                         help='Do not clean up intermediate files.')
+    parser.add_argument('--verbose', action='store_true',
+                        help='Show messages from PDF generation.')
     args = parser.parse_args()
+
+    if not args.verbose:
+        stdout = open(os.devnull, 'wb')
+        stderr = subprocess.STDOUT
+    else:
+        stdout = None
+        stderr = None
 
     # Get the directory and filename.
     if '/' not in args.path:
@@ -83,7 +82,7 @@ if __name__ == '__main__':
 
     # Create appropriate files.
     os.chmod('./temp.sh', 0o755)
-    subprocess.call('./temp.sh')
+    subprocess.call('./temp.sh', stdout=stdout, stderr=stderr)
     os.system('rm temp.sh')
 
     # Read in the temporary tex file and the bbl file.
@@ -147,7 +146,7 @@ if __name__ == '__main__':
         f.write('%s %s\n' % (args.latex, file))
         f.write('mv %s_temp.tex %s.tex\n' % (file, file))
     os.chmod('./temp.sh', 0o755)
-    subprocess.call('./temp.sh')
+    subprocess.call('./temp.sh', stdout=stdout, stderr=stderr)
     os.system('rm temp.sh')
 
     # Clean up the intermediate files.
