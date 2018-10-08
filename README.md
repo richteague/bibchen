@@ -8,8 +8,8 @@ python bibchen path/to/file.tex
 
 This will convert something like this:
 
-[alt text](https://github.com/richteague/bibchen/test/before.jpg "Standard bibliography.")
+![alt-text](https://github.com/richteague/bibchen/test/before.jpg "Standard bibliography.")
 
 To this!
 
-[alt text](https://github.com/richteague/bibchen/test/after.jpg "Shrunken bibliography.")
+![alt-text](https://github.com/richteague/bibchen/test/after.jpg "Shrunken bibliography.")
