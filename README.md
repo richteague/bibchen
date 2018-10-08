@@ -17,6 +17,8 @@ This will allow you to run the script anywhere through:
 $ bibchen path/to/file.tex
 ```
 
+which will use `PDFLaTeX` and `bibtex` to generate the final PDF without altering your manuscript file.
+
 ## Example
 
 A typical bibliography using the `natbib` approach gives something like this:
