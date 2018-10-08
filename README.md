@@ -17,7 +17,7 @@ This will allow you to run the script anywhere through:
 $ bibchen path/to/file.tex
 ```
 
-which will use `PDFLaTeX` and `bibtex` to generate the final PDF without altering your manuscript file. There are multiple format options which you can use, a list of which can be found through the `-h` argument,
+which will use by default `PDFLaTeX` and `bibtex` to generate the final PDF without altering your manuscript file. There are multiple format options which you can use, a list of which can be found through the `-h` argument,
 
 ```bash
 $ bibchen -h
