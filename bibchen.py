@@ -23,13 +23,19 @@ if __name__ == '__main__':
 
     # Read in the files.
     cdir = os.getcwd()
-    path = sys.argv[1]
-    if '/' not in path:
-        file = path
+
+    try:
+        path = sys.argv[1]
+        if '/' not in path:
+            file = path
+            path = './'
+        else:
+            file = path.split('/')[-1]
+            path = path.replace(file, '')
+    except IndexError:
+        file = [fn for fn in os.listdir('./') if fn.endswith('.tex')][0]
         path = './'
-    else:
-        file = path.split('/')[-1]
-        path = path.replace(file, '')
+
     if file.endswith('.tex'):
         file = file[:-4]
     os.chdir('%s' % path)
