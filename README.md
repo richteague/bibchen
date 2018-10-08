@@ -21,15 +21,11 @@ $ bibchen path/to/file.tex
 
 A typical bibliography using the `natbib` approach gives something like this:
 
----
-![alt-text](https://github.com/richteague/bibchen/blob/master/test/before.png "Standard bibliography.")
----
+> <img src="https://github.com/richteague/bibchen/blob/master/test/before.png" width="516" height="224">
 
 `bibchen` will replace the reference section with something much more compact, like this:
 
----
-![alt-text](https://github.com/richteague/bibchen/blob/master/test/after.png "Shrunken bibliography.")
----
+> <img src="https://github.com/richteague/bibchen/blob/master/test/after.png" width="512" height="81">
 
 ## To Do
 
