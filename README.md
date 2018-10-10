@@ -4,14 +4,18 @@ Writing a proposal and need to shrink your bibliography? `bibchen` is here to he
 
 ## Useage
 
+### Installation
+
 First, clone the respository somewhere and `cd` into the directory. Then if you're using a `.bashrc` file run this in the therminal.
 
 ```bash
-$ echo alias bibchen="'python $PWD/bibchen.py'" >> ~/.bashrc
+$ echo 'alias bibchen="python $PWD/bibchen.py"' >> ~/.bashrc
 $ bash
 ```
 
-This will allow you to run the script anywhere through:
+### Running
+
+From anywhere you should be able to run:
 
 ```bash
 $ bibchen path/to/file.tex
@@ -21,6 +25,16 @@ which will use by default `PDFLaTeX` and `bibtex` to generate the final PDF with
 
 ```bash
 $ bibchen -h
+```
+
+### Troubleshooting
+
+A failure might occur if you do not have `pdflatex` or `bibtex` commands available via the command line. Check that your `PATH` points to the right location. For some older MacOS versions, an update might have changed this ([for example](https://superuser.com/questions/982647/cannot-find-pdflatex-after-upgrade-to-mac-os-x-10-11-el-capitan)).
+
+A good first try would be something like:
+
+```bash
+$ echo 'export PATH="$PATH:/Library/TeX/Root/bin/x86_64-darwin/"' >> ~/.bashrc
 ```
 
 ## Example
