@@ -25,10 +25,10 @@ if __name__ == '__main__':
     parser.add_argument('-latex', default='pdflatex',
                         help='LaTeX engine used to generate PDF. Default is' +
                              ' "pdflatex".')
-    parser.add_argument('-title', default='References:',
+    parser.add_argument('-title', default='References',
                         help='Heading name used for the bibliography. Use' +
                              ' underscores in place of spaces. Default is ' +
-                             '"References:".')
+                             '"References".')
     parser.add_argument('-symbol', default='cdot',
                         help='Symbol used to break references. Default is ' +
                              '"cdot".')
@@ -111,7 +111,7 @@ if __name__ == '__main__':
     ref = r'\begingroup' + '\n'
     ref += r'\%s' % fontsize + '\n'
     ref += r'\vspace{0.2cm}' + '\n'
-    ref += r'\noindent\textbf{%s} ' % args.title.replace('_', ' ')
+    ref += r'\paragraph{%s} ' % args.title.replace('_', ' ')
     for b, bib_item in enumerate(bib_items):
 
         # Format is \bibitem[{Surname} A. B. {Surname} A. B. ...]{citekey}.
