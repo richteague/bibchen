@@ -41,13 +41,12 @@ $ echo 'export PATH="$PATH:/Library/TeX/Root/bin/x86_64-darwin/"' >> ~/.bashrc
 
 A typical bibliography using the `natbib` approach gives something like this:
 
-> <img src="https://github.com/richteague/bibchen/blob/master/test/before.png" width="516" height="224">
+> <img src="https://github.com/richteague/bibchen/blob/master/test/before.png" width="570" height="526">
 
 `bibchen` will replace the reference section with something much more compact, like this:
 
-> <img src="https://github.com/richteague/bibchen/blob/master/test/after.png" width="512" height="81">
+> <img src="https://github.com/richteague/bibchen/blob/master/test/after.png" width="570" height="400">
 
 ## To Do
 
 1) Check Python3 compatibility.
-2) Check for different bibliography styles.
