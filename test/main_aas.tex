@@ -1,0 +1,22 @@
+\documentclass[12pt]{article}
+\usepackage{natbib}
+
+\title{\texttt{bibchen} - Making Smaller Bibliographies}
+\author{Richard Teague}
+
+\begin{document}
+
+\maketitle{}
+
+Are you writing a proposal with citations and you need a smaller reference
+section? Tired of having to mess around with writing out each reference by hand
+to make it small enough to fit? \texttt{bibchen} is here to help!
+
+If we have some rather long text citing inline references:
+\citet{Teague_ea_2018}, \citet{Teague_Foreman-Mackey_2018}, and
+\citet{Teague_ea_2017}. Maybe there are some in parentheses
+\citep{Teague_ea_2015, Teague_ea_2016}, but that's OK.
+
+\bibliographystyle{aas}
+\bibliography{bibliography}{}
+\end{document}
