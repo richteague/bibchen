@@ -111,7 +111,7 @@ if __name__ == '__main__':
     ref = r'\begingroup' + '\n'
     ref += r'\%s' % fontsize + '\n'
     ref += r'\vspace{0.2cm}' + '\n'
-    ref += r'\paragraph{%s} ' % args.title.replace('_', ' ')
+    ref += r'\noindent\textbf{%s\quad} ' % args.title.replace('_', ' ')
     for b, bib_item in enumerate(bib_items):
 
         # Format is \bibitem[{Surname} A. B. {Surname} A. B. ...]{citekey}.
