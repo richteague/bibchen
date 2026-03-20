@@ -13,7 +13,40 @@ import subprocess
 fontsizes = ['Huge', 'huge', 'LARGE', 'Large', 'large', 'normalsize',
              'small', 'footnotesize', 'scriptsize', 'tiny']
 
-if __name__ == '__main__':
+
+def format_references(bbl, fontsize, title, symbol):
+    """Parse a .bbl string and return the compact LaTeX reference block."""
+    bib_items = [item for item in bbl.split(r'\bibitem')[1:]]
+    for b in range(len(bib_items)):
+        bib_items[b] = bib_items[b].replace(r'\newblock', '')
+        bib_items[b] = bib_items[b].replace(r'\end{thebibliography}', '')
+
+    ref = r'\begingroup' + '\n'
+    ref += r'\%s' % fontsize + '\n'
+    ref += r'\vspace{0.2cm}' + '\n'
+    ref += r'\noindent\textbf{%s\quad} ' % title
+    for b, bib_item in enumerate(bib_items):
+
+        # Format is \bibitem[{Surname} A. B. {Surname} A. B. ...]{citekey}.
+        citation, citekey = bib_item.split(']')
+        citation = citation[2:].split(')')[0] + ')'
+        citation = citation.replace('}', '').replace('{', '')
+        citekey = citekey[1:].split('}')[0]
+
+        # Search for the date.
+        full_ref = bib_item.split(']')[1].replace('{' + citekey + '}', '')
+        for c, char in enumerate(full_ref):
+            if char.isdigit():
+                break
+        full_ref = citation.split('(')[0] + ' ' + full_ref[c:]
+        if b > 0:
+            ref += symbol
+        ref += full_ref.replace('\n', '')
+    ref += r'\endgroup'
+    return ref
+
+
+def main():
 
     # Parse the arguments.
     parser = argparse.ArgumentParser()
@@ -101,35 +134,8 @@ if __name__ == '__main__':
              r'\savebox\mytempbib{\parbox{\textwidth}' + \
              r'{\bibliography{%s}}}' % bib + '\n'
 
-    # Cycle through the citation keys and replace them.
-    bib_items = [item for item in bbl.split(r'\bibitem')[1:]]
-    for b in range(len(bib_items)):
-        bib_items[b] = bib_items[b].replace(r'\newblock', '')
-        bib_items[b] = bib_items[b].replace(r'\end{thebibliography}', '')
-
     # Write the new reference section.
-    ref = r'\begingroup' + '\n'
-    ref += r'\%s' % fontsize + '\n'
-    ref += r'\vspace{0.2cm}' + '\n'
-    ref += r'\noindent\textbf{%s\quad} ' % args.title.replace('_', ' ')
-    for b, bib_item in enumerate(bib_items):
-
-        # Format is \bibitem[{Surname} A. B. {Surname} A. B. ...]{citekey}.
-        citation, citekey = bib_item.split(']')
-        citation = citation[2:].split(')')[0] + ')'
-        citation = citation.replace('}', '').replace('{', '')
-        citekey = citekey[1:].split('}')[0]
-
-        # Search for the date.
-        full_ref = bib_item.split(']')[1].replace('{' + citekey + '}', '')
-        for c, char in enumerate(full_ref):
-            if char.isdigit():
-                break
-        full_ref = citation.split('(')[0] + ' ' + full_ref[c:]
-        if b > 0:
-            ref += symbol
-        ref += full_ref.replace('\n', '')
-    ref += r'\endgroup'
+    ref = format_references(bbl, fontsize, args.title.replace('_', ' '), symbol)
 
     # Replace the reference section and rewrite the file.
     tex.insert(l+1, ref)
@@ -158,3 +164,7 @@ if __name__ == '__main__':
 
     # Change back to original directory.
     os.chdir('%s' % cdir)
+
+
+if __name__ == '__main__':
+    main()

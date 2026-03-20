@@ -1,3 +1,22 @@
+# Python
 *.pyc
-*.DS_store
-*.git
+__pycache__/
+
+# Packaging
+*.egg-info/
+dist/
+build/
+
+# Tests
+.pytest_cache/
+
+# LaTeX intermediates
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+
+# macOS
+.DS_Store

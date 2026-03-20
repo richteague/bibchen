@@ -2,15 +2,16 @@
 
 Writing a proposal and need to shrink your bibliography? `bibchen` is here to help!
 
-## Useage
+## Usage
 
 ### Installation
 
-First, clone the respository somewhere and `cd` into the directory. Then if you're using a `.bashrc` file run this in the therminal.
+Clone the repository and install with pip:
 
 ```bash
-$ echo 'alias bibchen="python $PWD/bibchen.py"' >> ~/.bashrc
-$ bash
+$ git clone https://github.com/richteague/bibchen.git
+$ cd bibchen
+$ pip install .
 ```
 
 ### Running
@@ -59,7 +60,7 @@ Sometimes the code appears to hang up and get stuck. This is likely an issue wit
 $ bibchen path/to/file.tex --verbose
 ```
 
-which will spit out all the information and allow you to continue with the complication by ignoring the errors.
+which will spit out all the information and allow you to continue with the compilation by ignoring the errors.
 
 A failure might occur if you do not have `PDFLaTeX` or `bibtex` commands available via the command line. Check that your `PATH` points to the right location. For some older MacOS versions, an update might have changed this ([for example](https://superuser.com/questions/982647/cannot-find-pdflatex-after-upgrade-to-mac-os-x-10-11-el-capitan)).
 
